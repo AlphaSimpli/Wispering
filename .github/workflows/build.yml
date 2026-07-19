@@ -91,7 +91,7 @@ jobs:
           override: true
 
       - name: Build Windows bundle
-        run: npm run tauri build -- --platform windows
+        run: npm run tauri build
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
