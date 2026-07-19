@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wispering</title>
+  </head>
+  <body>
+    <div id="setup-screen" class="setup-screen hidden">
+      <div class="setup-card">
+        <h1>Welcome to Wispering</h1>
+        <p>Enter your Groq API key to enable transcription.</p>
+        <input id="api-key-input" type="password" placeholder="gsk_..." autocomplete="new-password" />
+        <button id="save-api-key-btn" type="button">Save API Key</button>
+      </div>
+    </div>
+    <div class="app-shell">
+      <div class="state-indicator" aria-hidden="true">
+        <div class="state-ring">
+          <div class="recording-active"></div>
+          <div class="transcribing-active"></div>
+        </div>
+      </div>
+      <button id="record-btn" class="record-pill" type="button" aria-pressed="false">
+        <span class="icon-shell">
+          <span id="record-icon" class="record-icon">◌</span>
+        </span>
+        <span class="pill-copy">
+          <span id="status-text">Hold to speak</span>
+          <span id="subtext">Option + Space</span>
+        </span>
+      </button>
+      <input id="my-text" type="hidden" value="" />
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,362 @@
+:root {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #f5f7ff;
+  background: transparent;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent !important;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  transition: opacity 180ms ease, transform 180ms ease;
+  background: transparent !important;
+}
+
+body.is-hiding {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+.app-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: transparent !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.setup-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10;
+  padding: 24px;
+}
+
+.setup-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 24px;
+  border-radius: 24px;
+  background: rgba(20, 26, 45, 0.96);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(20px);
+  color: #f5f7ff;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.setup-card h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.setup-card p {
+  margin: 0;
+  color: rgba(245, 247, 255, 0.82);
+  line-height: 1.5;
+}
+
+.setup-card input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #f5f7ff;
+  font-size: 0.95rem;
+}
+
+.setup-card input::placeholder {
+  color: rgba(245, 247, 255, 0.5);
+}
+
+.setup-card button {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #6f73ff, #4ed6a3);
+  color: #111827;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.setup-card button:hover {
+  filter: brightness(1.05);
+}
+
+.state-indicator {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.state-ring {
+  position: relative;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recording-active,
+.transcribing-active {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.recording-active {
+  background: radial-gradient(circle, rgba(255, 92, 92, 0.38), rgba(255, 92, 92, 0));
+  filter: blur(6px);
+}
+
+.transcribing-active {
+  background: radial-gradient(circle, rgba(0, 224, 184, 0.3), rgba(104, 98, 255, 0));
+  filter: blur(8px);
+}
+
+.app-shell.is-recording .recording-active {
+  opacity: 1;
+  animation: pulseWave 1.2s ease-in-out infinite;
+}
+
+.app-shell.is-transcribing .transcribing-active {
+  opacity: 1;
+  animation: morphPulse 1.3s ease-in-out infinite;
+}
+
+.record-pill {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 240px;
+  min-width: 240px;
+  flex-shrink: 0;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 999px;
+  background: #1c2333;
+  color: #f8fbff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(24px);
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  white-space: nowrap;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.record-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.34);
+}
+
+.record-pill::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  border: none;
+  pointer-events: none;
+}
+
+.record-pill.recording {
+  width: 240px;
+  min-width: 240px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(255, 88, 88, 0.96), rgba(255, 136, 84, 0.92));
+  box-shadow: 0 20px 60px rgba(255, 96, 96, 0.24);
+}
+
+.record-pill.recording::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  animation: pulseRing 1.2s ease-out infinite;
+  pointer-events: none;
+}
+
+.record-pill.transcribing {
+  width: 240px;
+  min-width: 240px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(0, 224, 184, 0.94), rgba(104, 98, 255, 0.92));
+  box-shadow: 0 18px 55px rgba(74, 165, 255, 0.24);
+}
+
+.icon-shell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.icon-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35), transparent 70%);
+  opacity: 0.8;
+}
+
+.record-pill.recording .icon-shell {
+  animation: pulseCore 1s ease-in-out infinite;
+  box-shadow: 0 0 0 6px rgba(255, 74, 90, 0.12);
+}
+
+.record-pill.transcribing .icon-shell {
+  animation: spinGlow 0.9s linear infinite;
+}
+
+.record-icon {
+  position: relative;
+  z-index: 1;
+  font-size: 18px;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+.record-pill.recording .record-icon {
+  color: #ff4a5a;
+  text-shadow: 0 0 12px rgba(255, 74, 90, 0.8);
+  animation: pulse-ring 1.4s infinite ease-in-out;
+}
+
+.pill-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+#status-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#subtext {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.94);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.08);
+    opacity: 0;
+  }
+}
+
+@keyframes pulseCore {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes spinGlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulseWave {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.72;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.96;
+  }
+}
+
+@keyframes morphPulse {
+  0%,
+  100% {
+    transform: scale(0.9);
+    border-radius: 999px;
+  }
+  50% {
+    transform: scale(1.05);
+    border-radius: 38% 62% 64% 36% / 42% 44% 56% 58%;
+  }
+}
